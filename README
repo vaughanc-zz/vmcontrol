@@ -1,0 +1,22 @@
+I get bored of clicking on vm’s to start/suspend them for my demo environment.  I’ve written a little script that will automate this.  It runs a find on a directory and starts each .vmx in those subdirectories.  You’ll need to edit the VMROOT line to point to the correct directory.  It also launches it headless which the console doesn’t let you.
+
+Usage
+
+chris:scripts chris$ sh vmcontrol start 
+2015-05-21T21:07:20.790| ServiceImpl_Opener: PID 3703 
+2015-05-21T21:07:22.059| ServiceImpl_Opener: PID 3716 
+2015-05-21T21:07:23.707| ServiceImpl_Opener: PID 3723 
+2015-05-21T21:07:25.023| ServiceImpl_Opener: PID 3735 
+2015-05-21T21:07:26.717| ServiceImpl_Opener: PID 3749 
+2015-05-21T21:07:29.555| ServiceImpl_Opener: PID 3764 
+Success Total running VMs: 6 
+chris:scripts chris$ sh vmcontrol suspend 
+Success Total running VMs: 0 
+chris:scripts chris$ cat vmcontrol | grep VMROOT 
+VMROOT='/Users/chris/Documents/Virtual Machines/Tanium Demo Env’
+
+
+To add it to your bash environment add the directory the script sits in to your path.
+
+chris:~ chris$ cat ~/.bash_profile 
+export PATH=${PATH}:/Applications/Work/VMware\ Fusion.app/Contents/Library/:/Users/chris/scripts

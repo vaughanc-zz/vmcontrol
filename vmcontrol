@@ -1,0 +1,45 @@
+#!/bin/bash
+
+if [[ ("$1" != "start" && "$1" != "suspend") && ( $1 -lt 1 ) ]] 
+then
+        echo "usage: vmcontrol <action>"
+        echo "available actions: start, suspend"
+
+	exit 1
+fi
+
+export=$PATH:/Applications/Work/VMware\ Fusion.app/Contents/Library/
+VMROOT='/Users/chris/Documents/Virtual Machines/Tanium Demo Env'
+
+IFS=$'\n'
+
+#Launch VMWare
+
+open -n /Applications/Work/VMware\ Fusion.app
+
+# Finds all vm's in root folder
+
+VMX=(`find "$VMROOT" -name '*.vmx'`)
+
+# Cycles through VM's and modifies them
+
+for i in "${VMX[@]}"
+do
+	# Start VM's
+	string='My long string';
+
+	if [[ $i == *"tanium_master"* ]]
+	then
+		vmrun $1 $i gui
+	else
+		vmrun $1 $i nogui
+	fi
+
+	# Exit on error code
+	if [ "$?" = "1" ]
+	then
+		echo "Error: vmrun command not found in PATH"
+	exit 1
+	fi	
+done
+echo Success `vmrun list | grep Total`
